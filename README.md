@@ -18,4 +18,4 @@ npm build
 ```
 ## Using
 - react-router
-- --redux--
+- ~~redux~~
