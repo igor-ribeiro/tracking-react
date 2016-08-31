@@ -16,4 +16,6 @@ npm start
 # build for production with minification
 npm build
 ```
-
+## Using
+- react-router
+- --redux--
