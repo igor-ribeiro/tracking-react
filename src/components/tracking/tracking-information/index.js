@@ -1,60 +1,48 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import trackingApi from '../../../mocks/tracking-api';
+import { fetchTrackingInformation } from '../../../actions/tracking-actions';
 
 import AppLoader from '../../app/app-loader';
 import TrackingTable from '../tracking-table';
 import TrackingError from '../tracking-error';
 
-export default class TrackingInformation extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            code: '',
-            information: [],
-            error: '',
-            isLoading: false,
-        };
-    }
-
+class TrackingInformation extends Component {
     render() {
-        if (this.state.isLoading) {
+        if (this.props.isLoading) {
             return <AppLoader />;
         }
 
-        if (this.state.error) {
-            return <TrackingError error={this.state.error} />;
+        if (this.props.error) {
+            return <TrackingError error={this.props.error} />;
         }
 
-        return <TrackingTable information={this.state.information} code={this.state.code} />;
+        return <TrackingTable information={this.props.information} code={this.props.params.trackingCode} />;
     }
 
     componentDidMount() {
-        this.fetchTrackingInformation(this.props.params.trackingCode);
+        this.props.fetchTrackingInformation(this.props.params.trackingCode);
     }
 
     componentWillReceiveProps(props) {
-        this.fetchTrackingInformation(props.params.trackingCode);
-    }
-
-    fetchTrackingInformation = (code) => {
-        if (code === this.state.code) {
+        if (props.params.trackingCode === this.props.params.trackingCode) {
             return false;
         }
 
-        const information = trackingApi[code];
-
-        this.setState({ isLoading: true });
-
-        setTimeout(() => {
-            if (information) {
-                this.setState({ information, error: '' });
-            } else {
-                this.setState({ error: `No tracking information found for "${code}" code.`, information: [] });
-            }
-
-            this.setState({ isLoading: false, code });
-        }, 2000);
+        this.props.fetchTrackingInformation(props.params.trackingCode);
     }
 }
+
+const mapStateToProps = (state) => {
+    return { ...state.tracking };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchTrackingInformation: (code) => {
+            dispatch(fetchTrackingInformation(code));
+        },
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TrackingInformation);
