@@ -1,0 +1,18 @@
+.tracking-table {
+    border-collapse: collapse;
+}
+
+.tracking-table td,
+.tracking-table th {
+    border-bottom: 1px solid #b3b3b3;
+    padding: 5px;
+}
+
+.tracking-table-header {
+    background-color: #e6e6e6;
+    color: #444;
+}
+
+.tracking-table-body {
+    color: #555;
+}
