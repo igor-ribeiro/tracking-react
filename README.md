@@ -1,6 +1,8 @@
-# tracking-react
+# Tracking React
 
-> A React project
+## Tracking Codes
+- abc123
+- def456
 
 ## Build Setup
 
